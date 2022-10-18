@@ -1,4 +1,5 @@
 from io import StringIO
+import argparse
 
 
 class Node:
@@ -78,3 +79,31 @@ class Nai2webui:
 def nai2webui(prompt):
     n2w = Nai2webui(prompt)
     return n2w.read()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--from-file",
+        type=str,
+        default="prompt.txt",
+        help="path to prompt of NovelAI",
+    )
+    parser.add_argument(
+        "--outpath",
+        type=str,
+        default="prompt-webui.txt",
+        help="path to prompt of WebUI",
+    )
+    opt = parser.parse_args()
+
+    with open(opt.from_file, "r") as f:
+        prompt = f.read()
+
+    with open(opt.outpath, "w") as f:
+        f.write(nai2webui(prompt))
+
+
+if __name__ == "__main__":
+    main()
